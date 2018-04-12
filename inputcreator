@@ -1,3 +1,4 @@
+import sys
 import networkx as nx
 import numpy as np
 
@@ -15,7 +16,35 @@ def nodeAdder(G, u, v, x):
 
 #takes in a graph and writes it to a file
 def write_to_file(G):
-	
+	f = open("Inputs","w")
+	AL = nx.to_numpy_matrix(G)
+	print(AL)
+	adjacency_list_formatted =  []
+	list_of_data = G.nodes.data("conquesting_cost")
+	count = 0
+	for n in G:
+		print(n)
+		AL[n][n] = list_of_data[n]
+
+	print(AL)
+		
+
+
+			# start, end = a
+			# if start == x:
+
+
+G = nx.Graph()
+nodeAdder(G, 0, 3, 3)
+nodeAdder(G, 1, 4, 4)
+nodeAdder(G, 2, 5, 5)
+nodeAdder(G, 3, 6, 6)
+edgeAdder(G, 0, 1, 5)
+edgeAdder(G, 1, 2, 6)
+edgeAdder(G, 2, 3, 7)
+
+write_to_file(G)
+
 
 
 
