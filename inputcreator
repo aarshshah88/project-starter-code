@@ -21,18 +21,14 @@ def write_to_file(G):
 	print(AL)
 	adjacency_list_formatted =  []
 	list_of_data = G.nodes.data("conquesting_cost")
-	count = 0
+	AL = AL.tolist()
 	for n in G:
-		print(n)
 		AL[n][n] = list_of_data[n]
-
-	print(AL)
-		
-
-
+	
 			# start, end = a
 			# if start == x:
 
+	print(AL)
 
 G = nx.Graph()
 nodeAdder(G, 0, 3, 3)
