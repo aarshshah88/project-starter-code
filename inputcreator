@@ -1,0 +1,23 @@
+import networkx as nx
+import numpy as np
+
+
+#takes in a graph and edge between u and v with weight x
+def edgeAdder(G, u, v, x):
+	edgeUtoVweightX = (u, v, x)
+	G.add_edge(u, v, weight= x)
+	return G
+
+#adding a node called,u , with conquesting cost, v, and edge degree, x. 
+def nodeAdder(G, u, v, x):
+	G.add_node(u, conquesting_cost = v, edge_degree = x)
+
+
+#takes in a graph and writes it to a file
+def write_to_file(G):
+	
+
+
+
+
+
