@@ -60,6 +60,7 @@ def write_to_file(G):
 
 	return temp
 
+#takes in numbers n,k and creates a random graph with n vertices and k edges. Returns graph G
 def graphGenerator(n, k):
 	G = nx.Graph()
 	for i in np.arange(n):
@@ -78,8 +79,29 @@ def graphGenerator(n, k):
 	return G
 
 #takes in a graph G and numbers n,k and creates a random graph around G with n vertices and k edges. Returns new graph H
-#def graphGenerator(G, n, k):
-	#H = G
+def graphGenerator(G, n, k):
+	H = G
+	remaining_nodes = n - nx.number_of_nodes(G)
+	remaining_edges = k - nx.number_of_edges(G)
+	
+	if remaining_nodes <= 0 || remaining_edges <= 0:
+		return H
+
+	for i in np.arange(remaining_nodes):
+		p = i + nx.number_of_nodes(G)
+		r = random.randint(10, 100)
+		nodeAdder(H, p, r)
+
+	for j in np.arange(remaining_edges):
+		v = random.randint(0, n)
+		u = random.randint(0, n)
+		r = random.randint(10, 100)
+		if u != v:
+			edgeAdder(H, u, v, r)
+
+	AL = nx.to_numpy_matrix(G)
+	return H
+
 
 # G = nx.Graph()
 # nodeAdder(G, 0, 20)
