@@ -52,10 +52,20 @@ def ALcreator(G):
 
 #takes in a graph and writes it to a file
 def write_to_file(G):
-	f = open("Inputs","w")
+	f = open("Inputs.txt", "w")
 	adjacency_list_formatted =  []
 	temp = ALcreator(G)
 	print(temp)
+	f.write('' + str(nx.number_of_nodes(G)) + '' + '\n')
+	for x in G.nodes:
+		f.write('' + str(x) + ' ')
+
+	f.write('\n')
+	f.write('0' + '\n')
+	for x in range(len(temp)):
+		for y in range(len(temp)):
+			f.write('' + str(temp[x][y]) + ' ')
+		f.write('\n')
 	# for item in f:
 
 	return temp
@@ -64,44 +74,67 @@ def write_to_file(G):
 def graphGenerator(n, k):
 	G = nx.Graph()
 	for i in np.arange(n):
-		r = random.randint(10, 100)
+		r = random.randint(10, 100) #conquesting cost
 		nodeAdder(G, i, r)
 
 	for j in np.arange(k):
-		v = random.randint(0, n)
-		u = random.randint(0, n)
-		r = random.randint(10, 100)
+		v = random.randint(0, n - 1)
+		u = random.randint(0, n - 1)
+		r = random.randint(10, 100) #edge cost
 		if u != v:
 			edgeAdder(G, u, v, r)
 
 	AL = nx.to_numpy_matrix(G)
-	nx.draw_networkx(G)
 	return G
 
 #takes in a graph G and numbers n,k and creates a random graph around G with n vertices and k edges. Returns new graph H
-def graphGenerator(G, n, k):
+def existingGraphGenerator(G, n, k):
 	H = G
 	remaining_nodes = n - nx.number_of_nodes(G)
 	remaining_edges = k - nx.number_of_edges(G)
 	
-	if remaining_nodes <= 0 || remaining_edges <= 0:
+	if remaining_nodes <= 0 or remaining_edges <= 0:
 		return H
 
 	for i in np.arange(remaining_nodes):
 		p = i + nx.number_of_nodes(G)
-		r = random.randint(10, 100)
+		r = random.randint(10, 100) #conquesting cost
 		nodeAdder(H, p, r)
 
 	for j in np.arange(remaining_edges):
-		v = random.randint(0, n)
-		u = random.randint(0, n)
-		r = random.randint(10, 100)
+		v = random.randint(0, n - 1)
+		u = random.randint(0, n - 1)
+		r = random.randint(10, 100) #edge cost
 		if u != v:
 			edgeAdder(H, u, v, r)
 
 	AL = nx.to_numpy_matrix(G)
 	return H
 
+def graphWithAPathGenerator(n, k):
+	G = nx.Graph()
+	for i in np.arange(n):
+		if nx.number_of_nodes(G) == 0:
+			r = random.randint(10, 20) #conquesting cost
+			nodeAdder(G, i, r)
+		else:
+			r = random.randint(10, 20) #conquesting cost
+			nodeAdder(G, i, r)
+			q = random.randint(50, 75) #edge cost
+			edgeAdder(G, i-1, i, q)
+	random_weight = random.randint(50, 75)
+	edgeAdder(G, 0, n - 1, q)
+	
+	remaining_edges = k - nx.number_of_edges(G)
+
+	for i in np.arange(remaining_edges):
+		r = random.randint(76, 100) #random edge cost that is strictly greater than the edge costs in the path
+		u = random.randint(0, n - 1) #random vertex in G
+		v = random.randint(0, n - 1) #random vertex in G
+		if u != v:
+			edgeAdder(G, u, v, r)
+
+	return G
 
 # G = nx.Graph()
 # nodeAdder(G, 0, 20)
@@ -119,5 +152,6 @@ def graphGenerator(G, n, k):
 
 # write_to_file(G)
 
-G=graphGenerator(50, 300)
-nx.write_graphml(G, 'testInputs')
+G=graphWithAPathGenerator(50, 200)
+nx.write_graphml(G, 'testInputs.xml')
+write_to_file(G)
